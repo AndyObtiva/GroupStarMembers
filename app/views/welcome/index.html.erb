@@ -3,13 +3,13 @@
   This is where you can setup multiple criteria for accepting, ignoring, or blocking members of your group
 </h2>
 <h3>
-  <a href="https://www.facebook.com/GroupStarMembers" target="_blank">Facebook Page</a> Average Rating: <%= @ratings.map {|rating| rating['rating']}.sum.to_f / @ratings.size.to_f %>
+  <a href="https://www.facebook.com/GroupStarMembers" target="_blank">Facebook Page</a> Average Rating: <%= @ratings.to_a.map {|rating| rating['rating']}.sum.to_f / @ratings.to_a.size.to_f %>
 </h3>
 <p>
   Here are some of the things <a href="https://www.facebook.com/GroupStarMembers/reviews" target="_blank">our users are saying about us</a>:
 </p>
 <ul>
-<% @ratings.each do |rating| %>
+<% @ratings.to_a.each do |rating| %>
   <li><strong><%= rating['reviewer']['name'] %> (<%= rating['rating'] %> stars): </strong><%= rating['review_text'] %></li>
 <% end %>
 </ul>

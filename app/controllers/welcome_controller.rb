@@ -1,6 +1,17 @@
 class WelcomeController < ApplicationController
   def index
-    @page_graph = Koala::Facebook::API.new('CAACEdEose0cBAIbG60owNPPDig7p1Y7FvTZCdsZCLAH6QUKekm7l7SvHPawaWV4qZCZASE8L5hrQgjFbHIBCulG2Pxvkcebe7kZCQo16iry0qEKkY1tbADwcDjXrq7EwmH86X6Ti0O57CDcl4bXuKC9YLLVP6eYyLJBjJlm3zCoXZBZBZAZBek4ta3KIlpHIuVfXGGWt7KaEDCAZDZD')
-    @ratings = @page_graph.get_connections("1110820932265199", 'ratings')
+    @oauth = Koala::Facebook::OAuth.new(ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET'], 'http://group-star-members.herokuapp.com')
+    puts 'Cookies: '
+    puts cookies.inspect
+    @user = @oauth.get_user_info_from_cookies(cookies)
+    puts 'User: '
+    puts @user.inspect
+    unless @user.nil?
+      user_graph = Koala::Facebook::API.new(@user['access_token'])
+      accounts = user_graph.get_connections('me', 'accounts')
+      page_token = @user_graph.get_connections('me', 'accounts').detect {|account| account['id'] == ENV['FACEBOOK_PAGE_ID']}['access_token']
+      @page_graph = Koala::Facebook::API.new(page_token)
+      @ratings = @page_graph.get_connections(ENV['FACEBOOK_PAGE_ID'], 'ratings')
+    end
   end
 end
