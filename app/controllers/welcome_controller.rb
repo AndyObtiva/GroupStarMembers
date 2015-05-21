@@ -6,21 +6,13 @@ class WelcomeController < ApplicationController
       #@user = @oauth.get_user_info_from_cookies(cookies)
       user_token = ApplicationSetting.find_by_name('FACEBOOK_USER_TOKEN')
       if user_token.nil?
-        puts 'request'
-        puts request.inspect
-        puts 'request.url'
-        puts request.url
-        puts "params"
-        puts params.inspect
-        puts "params['token']"
-        puts params['token']
-        if params['token']
-          user_token = ApplicationSetting.create!(name: 'FACEBOOK_USER_TOKEN', value: params['token'])
-        elsif !request.url.include?('token')
-          oauth_url = @oauth.url_for_oauth_code + "&response_type=token"
-          puts 'oauth_url'
-          puts oauth_url
-          redirect_to(oauth_url)
+        puts "params['code']"
+        puts params['code']
+        if params['code']
+          user_token_value = @oauth.get_access_token(params['code'])
+          user_token = ApplicationSetting.create!(name: 'FACEBOOK_USER_TOKEN', value: user_token_value)
+        else
+          redirect_to(@oauth.url_for_oauth_code)
         end
       end
       return if user_token.nil?
