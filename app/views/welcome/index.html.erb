@@ -1,4 +1,15 @@
 <h1>Welcome to Group Star Members</h1>
-<p>
+<h2>
   This is where you can setup multiple criteria for accepting, ignoring, or blocking members of your group
+</h2>
+<h3>
+  Facebook Average Rating: <%= @ratings.map {|rating| rating['rating']}.sum.to_f / @ratings.size.to_f %>
+</h3>
+<p>
+  Here are some of the things our users are saying about us:
 </p>
+<ul>
+<% @ratings.each do |rating| %>
+  <li><strong><%= rating['reviewer']['name'] %> (<%= rating['rating'] %> stars): </strong><%= rating['review_text'] %></li>
+<% end %>
+</ul>
