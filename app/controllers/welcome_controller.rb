@@ -27,7 +27,7 @@ class WelcomeController < ApplicationController
           redirect_to(oauth_url) && return
         end
       end
-      raise 'No user token found!' if user_token.nil?
+      render(text: 'No user token found!') && return if user_token.nil?
 
       begin
         new_user_token_info = @oauth.exchange_access_token_info(user_token.value)
@@ -54,7 +54,7 @@ class WelcomeController < ApplicationController
       Rails.logger.error accounts.inspect
       facebook_page_account = accounts.detect {|account| account['id'] == ENV['FACEBOOK_PAGE_ID']}
       page_token_value = facebook_page_account && facebook_page_account['access_token']
-      raise 'No page token value found!' if page_token_value.nil?
+      render(text: 'No page token value found!') && return if page_token_value.nil?
       page_token = ApplicationSetting.find_or_create_by(name: 'FACEBOOK_PAGE_TOKEN') do |setting|
         setting.value = page_token_value
       end
