@@ -7,6 +7,16 @@ class WelcomeController < ApplicationController
       if user_token.nil?
         Rails.logger.info "params['code']"
         Rails.logger.info params['code']
+
+        #puts 'cookies.inspect'
+        #puts cookies.inspect
+        #user = @oauth.get_user_info_from_cookies(cookies)
+        #puts 'user.inspect'
+        #puts user.inspect
+        #if user.nil?
+        #  return #let JS API take care of this
+        #end
+
         if params['code']
           user_token_value = @oauth.get_access_token(params['code'])
           user_token = ApplicationSetting.create!(name: 'FACEBOOK_USER_TOKEN', value: user_token_value)
