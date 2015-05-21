@@ -36,8 +36,8 @@ class WelcomeController < ApplicationController
         raise e
       end
 
-      Rails.logger.info "user token value"
-      Rails.logger.info user_token.value
+      Rails.logger.error "user token value"
+      Rails.logger.error user_token.value
 
       if new_user_token_info.nil?
         user_token.destroy
@@ -46,12 +46,12 @@ class WelcomeController < ApplicationController
         user_token.update_attribute(:value, new_user_token_info['access_token'])
       end
 
-      Rails.logger.info "new user token value"
-      Rails.logger.info user_token.value
+      Rails.logger.error "new user token value"
+      Rails.logger.error user_token.value
       user_graph = Koala::Facebook::API.new(user_token.value)
       accounts = user_graph.get_connections('me', 'accounts')
-      Rails.logger.info 'accounts.inspect'
-      Rails.logger.info accounts.inspect
+      Rails.logger.error 'accounts.inspect'
+      Rails.logger.error accounts.inspect
       facebook_page_account = accounts.detect {|account| account['id'] == ENV['FACEBOOK_PAGE_ID']}
       page_token_value = facebook_page_account && facebook_page_account['access_token']
       raise 'No page token value found!' if page_token_value.nil?
