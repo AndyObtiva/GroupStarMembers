@@ -54,13 +54,14 @@ class WelcomeController < ApplicationController
       Rails.logger.error accounts.inspect
       facebook_page_account = accounts.detect {|account| account['id'] == ENV['FACEBOOK_PAGE_ID']}
       page_token_value = facebook_page_account && facebook_page_account['access_token']
-      render(inline: 'No page token value found!') && return if page_token_value.nil?
-      page_token = ApplicationSetting.find_or_create_by(name: 'FACEBOOK_PAGE_TOKEN') do |setting|
-        setting.value = page_token_value
+      unless page_token_value.nil?
+        page_token = ApplicationSetting.find_or_create_by(name: 'FACEBOOK_PAGE_TOKEN') do |setting|
+          setting.value = page_token_value
+        end
+        @page_graph = Koala::Facebook::API.new(page_token.value)
+        @ratings = @page_graph.get_connections(ENV['FACEBOOK_PAGE_ID'], 'ratings')
       end
     #end
 
-    @page_graph = Koala::Facebook::API.new(page_token.value)
-    @ratings = @page_graph.get_connections(ENV['FACEBOOK_PAGE_ID'], 'ratings')
   end
 end
