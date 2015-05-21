@@ -29,22 +29,22 @@ class WelcomeController < ApplicationController
       end
       render(inline: 'No user token found!') && return if user_token.nil?
 
-      #begin
-      #  new_user_token_info = @oauth.exchange_access_token_info(user_token.value)
-      #rescue => e
-      #  user_token.destroy
-      #  raise e
-      #end
+      begin
+        new_user_token_info = @oauth.exchange_access_token_info(user_token.value)
+      rescue => e
+        user_token.destroy
+        raise e
+      end
 
-      #Rails.logger.error "user token value"
-      #Rails.logger.error user_token.value
+      Rails.logger.error "user token value"
+      Rails.logger.error user_token.value
 
-      #if new_user_token_info.nil?
-      #  user_token.destroy
-      #  redirect_to(action: index)
-      #else
-      #  user_token.update_attribute(:value, new_user_token_info['access_token'])
-      #end
+      if new_user_token_info.nil?
+        user_token.destroy
+        redirect_to(action: index)
+      else
+        user_token.update_attribute(:value, new_user_token_info['access_token'])
+      end
 
       Rails.logger.error "new user token value"
       Rails.logger.error user_token.value
