@@ -1,31 +1,28 @@
-//alert('<%= ENV['FACEBOOK_APP_ID']%>')
-//
-//$(document).ready(function() {
-//  $.ajaxSetup({ cache: true });
-//  $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
-//    FB.init({
-//      appId: '<%= ENV['FACEBOOK_APP_ID']%>',
-//      version: 'v2.3' // or v2.0, v2.1, v2.0
-//    });     
-//    $('#loginbutton,#feedbutton').removeAttr('disabled');
-//    FB.getLoginStatus(function(response) {
-//      if (response.status === 'connected') {
-//         // the user is logged in and has authenticated your
-//         // app, and response.authResponse supplies
-//         // the user's ID, a valid access token, a signed
-//         // request, and the time the access token 
-//         // and signed request each expire
-//         var uid = response.authResponse.userID;
-//         var accessToken = response.authResponse.accessToken;
-//         alert("Logged in. uid: "+uid+ " accessToken: "+accessToken);
-//       } else if (response.status === 'not_authorized') {
-//         // the user is logged in to Facebook, 
-//         // but has not authenticated your app
-//         alert("User logged in not authorized for your app");
-//       } else {
-//         // the user isn't logged in to Facebook.
-//         FB.login(function(response) {}, {scope: 'manage_pages'});
-//       }
-//    });
-//  });
-//});
+$(document).ready(function() {
+  $.ajaxSetup({ cache: true });
+  $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+    FB.init({
+      appId: '<%= ENV['FACEBOOK_APP_ID']%>',
+      version: 'v2.3' // or v2.0, v2.1, v2.0
+    });     
+    $('#loginbutton,#feedbutton').removeAttr('disabled');
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+         // the user is logged in and has authenticated your
+         // app, and response.authResponse supplies
+         // the user's ID, a valid access token, a signed
+         // request, and the time the access token 
+         // and signed request each expire
+         var uid = response.authResponse.userID;
+         var accessToken = response.authResponse.accessToken;
+       } else if (response.status === 'not_authorized') {
+         // the user is logged in to Facebook, 
+         // but has not authenticated your app
+         alert("User logged in not authorized for your app");
+       } else {
+         // the user isn't logged in to Facebook.
+         FB.login(function(response) {document.location = document.location.url}, {scope: 'manage_pages'});
+       }
+    });
+  });
+});
