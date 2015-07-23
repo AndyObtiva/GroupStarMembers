@@ -24,5 +24,7 @@ $(document).ready(function() {
          //FB.login(function(response) {document.location = '/'}, {scope: 'manage_pages'});
        }
     });
+    $('h3 a').click(function(event) {mixpanel.track("Check Facebook Page");return true;});
+    $('p a').click(function(event) {mixpanel.track("Check User Reviews");return true;});
   });
 });
