@@ -13,3 +13,22 @@
  *= require_tree .
  *= require_self
  */
+
+#image-facebook-like {
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+  position: relative;
+  top: 5px;
+}
+
+#action-facebook-page {
+  background-image: image-url('Facebook_Logo.jpg');
+  background-repeat: no-repeat;
+  background-size: 100px auto;
+  color: transparent;
+  width: 100px;
+  display: inline-block;
+  position: relative;
+  top: 15px;
+}
